@@ -28,8 +28,8 @@ def remove_unnecessary_columns():
             )
             
             # create new, further cleaned CSV
-            cleaned_file = f"extra_clean_{file_path.name}"
-            df.to_csv(PLAYER_DATA_DIR / cleaned_file, index=False)
+            cleaned_file_path = f"extra_clean_{file_path.name.split("_")[0]}.csv"
+            df.to_csv(PLAYER_DATA_DIR / cleaned_file_path, index=False)
 
 if __name__ == "__main__":
     remove_unnecessary_columns()
