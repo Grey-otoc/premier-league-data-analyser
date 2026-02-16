@@ -1,6 +1,7 @@
 import './App.css';
 import SearchBar from './SearchBar';
 import Banners from './Banners';
+import AdBanner from './AdBanner';
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
     <div className="firefox-container">
       <SearchBar />
       <Banners />
+      <AdBanner/>
     </div>
   );
 }
