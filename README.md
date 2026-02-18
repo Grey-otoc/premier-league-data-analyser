@@ -34,3 +34,14 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+
+### 4. Start Local API Server
+```bash
+fastapi dev ./src/backend/api.py
+```
+
+### 5. Test API Endpoints
+Navigate to local server address supplied and test various endpoints like:
+http://127.0.0.1:8000/api/stats
+or
+http://127.0.0.1:8000/api/stats/21-22/goals_scored
