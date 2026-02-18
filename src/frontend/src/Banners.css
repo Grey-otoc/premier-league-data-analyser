@@ -1,0 +1,67 @@
+.top-sites-grid {
+  display: grid;
+  /* Ensures each column is exactly 200px */
+  grid-template-columns: repeat(auto-fill, 200px); 
+  gap: 24px;
+  justify-content: center;
+  padding: 40px;
+}
+
+.site-card {
+  width: 200px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.site-card:hover {
+  transform: translateY(-5px);
+}
+
+.site-preview {
+  width: 200px;
+  height: 150px; /* Leaves 50px for the text below */
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.site-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Use 'contain' if you prefer seeing the whole logo */
+}
+
+.site-info {
+  padding: 10px 4px;
+  text-align: left;
+}
+
+.site-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.site-description {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-top: 2px;
+  line-height: 1.4;
+  /* Limits description to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
