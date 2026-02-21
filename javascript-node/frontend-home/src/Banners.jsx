@@ -1,4 +1,6 @@
 import './Banners.css';
+import StatsOverview from './StatsOverview';
+import TopPerformers from './TopPerformers';
 export default function Banners() {
 
     const topSites = [
@@ -11,23 +13,9 @@ export default function Banners() {
     ];
 
     return (
-        <div className="top-sites-grid">
-            {topSites.map((site, index) => (
-                <a key={index} href={site.url} className="site-card" target="_blank" rel="noreferrer">
-                    <div className="site-icon-wrapper">
-                        {/* Using a favicon service or site.image if you have it */}
-                        <img
-                            src={`https://placehold.co/200`}
-                            alt={site.name}
-                            className="site-image-placeholder"
-                            onError={(e) => { e.target.src = 'https://via.placeholder.com'; }}
-                        />
-                    </div>
-                    <div className="site-info">
-                        <span className="site-name">{site.name}</span>
-                    </div>
-                </a>
-            ))}
-        </div>
+            <div>
+            <StatsOverview/>
+            <TopPerformers/>
+            </div>
     );
 }

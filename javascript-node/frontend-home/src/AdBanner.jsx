@@ -1,12 +1,14 @@
+import React from 'react';
 import './AdBanner.css';
 
 const AdBanner = ({
   sponsor = "Sponsored by",
   title = "PremierStats Pro",
   subtitle = "Advanced analytics and predictions for fantasy football managers",
-  ctaText = "Learn More →",
+  ctaText = "Learn More",
   logoText = "PS",
   badgeText = "NEW",
+  features = [],
   onCtaClick = null
 }) => {
   const handleClick = (e) => {
@@ -18,6 +20,15 @@ const AdBanner = ({
     }
   };
 
+  // Default features if none provided
+  const defaultFeatures = [
+    { icon: '⚡', text: 'Real-time Updates' },
+    { icon: '📊', text: 'Advanced Analytics' },
+    { icon: '🎯', text: '95% Accuracy' }
+  ];
+
+  const displayFeatures = features.length > 0 ? features : defaultFeatures;
+
   return (
     <div className="ad-banner-container">
       <div className="ad-banner-pattern"></div>
@@ -26,9 +37,23 @@ const AdBanner = ({
           <div className="ad-banner-sponsor">{sponsor}</div>
           <h2 className="ad-banner-title">{title}</h2>
           <p className="ad-banner-subtitle">{subtitle}</p>
-          <a href="#" className="ad-banner-cta" onClick={handleClick}>
-            {ctaText}
-          </a>
+          
+          {displayFeatures.length > 0 && (
+            <div className="ad-banner-features">
+              {displayFeatures.map((feature, index) => (
+                <div key={index} className="ad-banner-feature">
+                  <span className="ad-banner-feature-icon">{feature.icon}</span>
+                  <span>{feature.text}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          <div style={{ marginTop: '28px' }}>
+            <a href="#" className="ad-banner-cta" onClick={handleClick}>
+              {ctaText}
+            </a>
+          </div>
         </div>
         <div className="ad-banner-right">
           <div className="ad-banner-logo">

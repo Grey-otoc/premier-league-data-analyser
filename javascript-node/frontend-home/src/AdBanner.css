@@ -3,25 +3,39 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px 0;
   margin-top: 60px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
+/* Animated background pattern */
 .ad-banner-pattern {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-  opacity: 0.3;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  opacity: 0.4;
   pointer-events: none;
+  animation: patternMove 20s linear infinite;
+}
+
+@keyframes patternMove {
+  0% {
+    background-position: 0% 0%, 0% 0%, 0 0;
+  }
+  100% {
+    background-position: 100% 100%, -100% -100%, 40px 40px;
+  }
 }
 
 .ad-banner-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -29,83 +43,169 @@
   padding: 0 40px;
   position: relative;
   z-index: 1;
+  gap: 30px;
 }
 
 .ad-banner-left {
   flex: 1;
   color: white;
+  animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .ad-banner-sponsor {
-  font-size: 12px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  opacity: 0.8;
+  opacity: 0.85;
   margin-bottom: 8px;
   font-weight: 600;
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .ad-banner-title {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+  background: linear-gradient(to right, #ffffff, #e0e7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .ad-banner-subtitle {
-  font-size: 16px;
+  font-size: 14px;
   opacity: 0.9;
-  margin-bottom: 20px;
-  line-height: 1.5;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  max-width: 450px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .ad-banner-cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: white;
   color: #667eea;
-  padding: 12px 30px;
-  border-radius: 30px;
+  padding: 10px 24px;
+  border-radius: 25px;
   text-decoration: none;
-  font-weight: bold;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-banner-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ad-banner-cta:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .ad-banner-cta:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  background: #f8f9fa;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+}
+
+/* Add icon to CTA */
+.ad-banner-cta::after {
+  content: '→';
+  font-size: 16px;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.ad-banner-cta:hover::after {
+  transform: translateX(4px);
 }
 
 .ad-banner-right {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 40px;
+  padding-left: 20px;
+  animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .ad-banner-logo {
-  width: 180px;
-  height: 180px;
+  width: 100px;
+  height: 100px;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
+.ad-banner-logo:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+/* Enhanced shine animation */
 .ad-banner-logo-shine {
   position: absolute;
   top: -50%;
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  animation: shine 3s infinite;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 70%
+  );
+  animation: shine 3s ease-in-out infinite;
 }
 
 @keyframes shine {
@@ -117,55 +217,261 @@
   }
 }
 
+/* Pulsing glow effect */
+.ad-banner-logo::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+  background-size: 200% 200%;
+  animation: pulseGlow 4s ease-in-out infinite;
+  z-index: -1;
+  filter: blur(8px);
+  opacity: 0.5;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.7;
+  }
+}
+
 .ad-banner-logo-text {
-  font-size: 48px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 900;
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 1;
+  position: relative;
 }
 
 .ad-banner-badge {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  background: #ffd700;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
   color: #333;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  transform: rotate(15deg);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 9px;
+  font-weight: 900;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+  transform: rotate(12deg);
+  z-index: 2;
+  border: 1.5px solid white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: badgeBounce 2s ease-in-out infinite;
 }
 
-/* Responsive */
+@keyframes badgeBounce {
+  0%, 100% {
+    transform: rotate(12deg) scale(1);
+  }
+  50% {
+    transform: rotate(12deg) scale(1.08);
+  }
+}
+
+/* Feature pills - compact */
+.ad-banner-features {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.ad-banner-feature {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 11px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.ad-banner-feature:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.ad-banner-feature-icon {
+  font-size: 13px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .ad-banner-content {
+    gap: 25px;
+    padding: 0 30px;
+  }
+
+  .ad-banner-title {
+    font-size: 22px;
+  }
+
+  .ad-banner-subtitle {
+    font-size: 13px;
+  }
+
+  .ad-banner-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .ad-banner-logo-text {
+    font-size: 32px;
+  }
+}
+
 @media (max-width: 768px) {
+  .ad-banner-container {
+    padding: 16px 0;
+    border-radius: 12px;
+    margin-top: 40px;
+  }
+
   .ad-banner-content {
     flex-direction: column;
     text-align: center;
     padding: 0 20px;
+    gap: 20px;
   }
 
   .ad-banner-right {
     padding-left: 0;
-    margin-top: 30px;
+  }
+
+  .ad-banner-left {
+    animation: slideInUp 0.6s ease-out;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .ad-banner-title {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .ad-banner-subtitle {
-    font-size: 14px;
+    font-size: 12px;
+    max-width: 100%;
   }
 
   .ad-banner-logo {
-    width: 150px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
   }
 
   .ad-banner-logo-text {
-    font-size: 36px;
+    font-size: 28px;
+  }
+
+  .ad-banner-cta {
+    width: auto;
+    padding: 9px 20px;
+    font-size: 12px;
+  }
+
+  .ad-banner-sponsor {
+    font-size: 9px;
+    padding: 3px 10px;
+  }
+
+  .ad-banner-badge {
+    top: -6px;
+    right: -6px;
+    padding: 3px 8px;
+    font-size: 8px;
+  }
+
+  .ad-banner-features {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .ad-banner-feature {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .ad-banner-feature-icon {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ad-banner-container {
+    padding: 12px 0;
+  }
+
+  .ad-banner-title {
+    font-size: 18px;
+  }
+
+  .ad-banner-subtitle {
+    font-size: 11px;
+  }
+
+  .ad-banner-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .ad-banner-logo-text {
+    font-size: 24px;
+  }
+
+  .ad-banner-cta {
+    font-size: 11px;
+    padding: 8px 18px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ad-banner-pattern,
+  .ad-banner-logo-shine,
+  .ad-banner-logo::after,
+  .ad-banner-badge {
+    animation: none;
+  }
+
+  .ad-banner-cta,
+  .ad-banner-logo {
+    transition: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .ad-banner-container {
+    background: white;
+    color: black;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  .ad-banner-pattern {
+    display: none;
   }
 }
