@@ -3,8 +3,11 @@ from pathlib import Path
 import sqlite3
 
 """
-initialises the database and creates playesrs, seasons, and player_stats
+initialises the stats database and creates players, seasons, and player_stats
 tables if they do not exist
+
+once schema is configured, populate_db reads statistics from player_data csv files
+and inserts relevant data into relevant tables
 """
 
 CURRENT_DIR = Path(__file__).resolve()
@@ -43,8 +46,8 @@ def initialise_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS player_stats (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                player_id INTEGER DEFAULT 0,
-                season_id INTEGER DEFAULT 0,
+                player_id INTEGER NOT NULL,
+                season_id INTEGER NOT NULL,
                 
                 goals_scored INTEGER DEFAULT 0,
                 assists INTEGER DEFAULT 0,
@@ -52,7 +55,7 @@ def initialise_db():
                 goals_conceded INTEGER DEFAULT 0,
                 creativity REAL DEFAULT 0.0,
                 influence REAL DEFAULT 0.0,
-                threat REAL DEFAULT 0.0,
+                threat INTEGER DEFAULT 0,
                 ict_index REAL DEFAULT 0.0,
                 clean_sheets INTEGER DEFAULT 0,
                 red_cards INTEGER DEFAULT 0,
@@ -101,16 +104,15 @@ def populate_db():
             # populate players table with every player full_name
             # must be done before player_stats table due to foreign key relationships
             full_names = [row.full_name for row in df.itertuples(index=False)]
-            print(f"Length of list: {len(full_names)}")
-            full_names = set(full_names)
-            print(f"Length of set: {len(full_names)}")
-            populate_players_table(connection, list(full_names))
+            populate_players_table(connection, full_names)
             
             for row in df.itertuples(index=False):
-                populate_players_table
+                print(row.full_name)
+                populate_player_stats_table(connection, row, extracted_season)
+                break
     
-    except Exception as E:
-        print("FATAL ERROR: Failed while populating database.")
+    except Exception as e:
+        print(f"FATAL ERROR: Failed while populating database: {e}")
         
         if connection:
             connection.rollback()
@@ -121,8 +123,35 @@ def populate_db():
         if connection:
             connection.close()
             
-def populate_player_stats_table():
-    pass
+def populate_player_stats_table(connection: sqlite3.Connection, stat_row: pd.Series, extracted_season: str):
+    cursor = connection.cursor()
+    
+    cursor.execute(
+        '''SELECT id FROM players WHERE full_name = ?''',
+        (stat_row.full_name,)
+    )
+    player_id = cursor.fetchone()
+    
+    if player_id == None:
+        raise ValueError(
+            f"FATAL ERROR: Database mismatch. Player {stat_row.full_name} not "
+            f"found in players database."
+        )
+    
+    cursor.execute(
+        '''SELECT id FROM seasons WHERE season_abbr = ?''',
+        (extracted_season,)
+    )
+    season_id = cursor.fetchone()
+    
+    if season_id == None:
+        raise ValueError(
+            f"FATAL ERROR: Database mismatch. Season {extracted_season} not "
+            f"found in seasons database."
+        )
+        
+    print(player_id, season_id, extracted_season)
+    
         
 def populate_players_table(connection: sqlite3.Connection, player_names: list):
     cursor = connection.cursor()
