@@ -14,7 +14,7 @@ app = FastAPI()
 
 # ensure player_data directory and files exist before attempting access
 if not PLAYER_DATA_DIR.exists() or not any(PLAYER_DATA_DIR.glob("*.csv")):
-    raise FileNotFoundError("Player directory and/or files were not found.")
+    raise FileNotFoundError("FATAL ERROR: Player directory and/or files were not found.")
 
 # retrieve data from player_data directory and store in dataframes 
 season_data = {}
