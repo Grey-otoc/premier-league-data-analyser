@@ -91,7 +91,6 @@ def populate_db():
     
     try:
         connection = sqlite3.connect(stats_db_path)
-        cursor = connection.cursor()
     
         for file in PLAYER_DATA_DIR.glob("*.csv"):
             # load each csv file into a df and add full_name column
@@ -136,6 +135,8 @@ def populate_player_stats_table(connection: sqlite3.Connection, stat_row: tuple,
         (player_id, season_id)
     )
     
+    # if player_stats table already has an entry for player_id and season_id, then
+    # it must be skipped
     if cursor.fetchone():
         return
         
