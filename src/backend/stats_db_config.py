@@ -82,9 +82,13 @@ def initialise_db():
             connection.close()
             
 def populate_db():
+    '''
+    populates player_stats, players, and seasons tables using statistics from 
+    /player_data CSVs
+    '''
     connection = None
     
-    stats_db_path = get_db_path()
+    stats_db_path = get_stats_db_path()
 
     if not PLAYER_DATA_DIR.exists() or not any(PLAYER_DATA_DIR.glob("*.csv")):
         raise FileNotFoundError("FATAL ERROR: Player directory and/or files were not found.")
@@ -181,6 +185,7 @@ def populate_player_stats_table(connection: sqlite3.Connection, stat_row: tuple,
     
     cursor.execute(player_stats_sql, player_stats)
 
+    # if a player's stats were added, rowcount will be 1, so add to count
     if cursor.rowcount == 1:
         print(f"Added {extracted_season} stats for {stat_row.full_name}.")
         
@@ -194,6 +199,7 @@ def populate_players_table(connection: sqlite3.Connection, player_names: list):
             (name,)
         )
 
+        # if a player was added, rowcount will be 1, so add to count
         if cursor.rowcount == 1:
             count += 1
         
@@ -210,12 +216,18 @@ def populate_seasons_table(connection: sqlite3.Connection, extracted_season: str
         (extracted_season,)
     )
 
+    # if a season was added, rowcount will be 1, so add to count
     if cursor.rowcount == 1:
         print(f"Added {extracted_season} to seasons table.")
     
     connection.commit()
         
 def get_player_id(connection: sqlite3.Connection, full_name: str) -> int:
+    '''
+    helper function for populate_player_stats_table() that accesses and returns
+    matching player_id from players table
+    '''
+
     cursor = connection.cursor()
     
     cursor.execute(
@@ -235,6 +247,11 @@ def get_player_id(connection: sqlite3.Connection, full_name: str) -> int:
     return player_id
     
 def get_season_id(connection: sqlite3.Connection, extracted_season: str) -> int:
+    '''
+    helper function for populate_player_stats_table() that accesses and returns
+    matching season_id from seasons table
+    '''
+    
     cursor = connection.cursor()
     
     cursor.execute(
@@ -252,7 +269,13 @@ def get_season_id(connection: sqlite3.Connection, extracted_season: str) -> int:
     
     return season_id
     
-def get_db_path() -> Path:
+def get_stats_db_path() -> Path:
+    '''
+    provides a safer, modular way to get the path to the stats db,
+    used in files like api.py and db_test_queries.py
+    '''
+    
+    # if db directory or file does not exist, initialise db first
     if not DB_PATH.exists():
         print("NON-FATAL ERROR: Stats database file not found. Initialising new database...")
         initialise_db()

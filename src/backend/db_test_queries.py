@@ -1,12 +1,13 @@
 import pathlib
 import sqlite3
-from stats_db_config import get_db_path
+from stats_db_config import get_stats_db_path
+from user_db_config import get_users_db_path
 
 def get_season_abbrs():
     connection = None
     
     try:
-        connection = sqlite3.connect(get_db_path())
+        connection = sqlite3.connect(get_stats_db_path())
         cursor = connection.cursor()
         
         cursor.execute('''
@@ -30,7 +31,7 @@ def get_player_names():
     connection = None
     
     try:
-        connection = sqlite3.connect(get_db_path())
+        connection = sqlite3.connect(get_stats_db_path())
         cursor = connection.cursor()
         
         cursor.execute('''
@@ -54,7 +55,7 @@ def get_table_row_counts():
     connection = None
     
     try:
-        connection = sqlite3.connect(get_db_path())
+        connection = sqlite3.connect(get_stats_db_path())
         cursor = connection.cursor()
 
         cursor.execute("SELECT COUNT(*) FROM players")
@@ -64,8 +65,7 @@ def get_table_row_counts():
         print("Seasons:", cursor.fetchone()[0])
 
         cursor.execute(
-            '''SELECT COUNT(*) FROM player_stats WHERE season_id = ?''',
-            (4,)
+            '''SELECT COUNT(*) FROM player_stats'''
         )
         print("Player Stats:", cursor.fetchone()[0])
         
@@ -77,6 +77,50 @@ def get_table_row_counts():
         if connection:
             connection.close()
 
+def add_mock_user():
+    connection = None
+    
+    try:
+        connection = sqlite3.connect(get_users_db_path())
+        cursor = connection.cursor()
+
+        username = input("Username: ")
+        password = input("Password: ")
+        
+        cursor.execute(
+            '''INSERT INTO user_info (username, password_hash)
+            VALUES (?, ?)''',
+            (username, password)
+        )
+        connection.commit()
+        
+    except Exception as e:
+        print("FATAL ERROR: Failed to add mock user to users database: {e}.")
+        raise
+        
+    finally:
+        if connection:
+            connection.close()
+            
+def print_all_users():
+    connection = None
+    
+    try:
+        connection = sqlite3.connect(get_users_db_path())
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * FROM user_info")
+        print("Users:", cursor.fetchall())
+        
+    except Exception as e:
+        print("FATAL ERROR: Failed to retrieve and print users from database: {e}.")
+        raise
+        
+    finally:
+        if connection:
+            connection.close()
+
 if __name__ == "__main__":
+    #add_mock_user()
+    #print_all_users()
     get_table_row_counts()
-    print(get_season_abbrs())

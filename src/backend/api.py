@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 import sqlite3
-from stats_db_config import get_db_path
+from stats_db_config import get_stats_db_path
 
 '''
 creates endpoints that frontend can query to retrieve necessary static data
@@ -11,7 +11,7 @@ app = FastAPI()
 def get_connection():
     '''generator function that acts as a dependency for FastAPI endpoints'''
     
-    connection = sqlite3.connect(get_db_path())
+    connection = sqlite3.connect(get_stats_db_path())
     # allows us to access column names rather than their index
     connection.row_factory = sqlite3.Row
     
@@ -28,7 +28,7 @@ def load_cached_data():
     connection = None
     
     try:
-        connection = sqlite3.connect(get_db_path())
+        connection = sqlite3.connect(get_stats_db_path())
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
         
