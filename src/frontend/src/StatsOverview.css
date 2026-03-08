@@ -3,7 +3,7 @@
 }
 
 .section-title {
-  color: white;
+  color: #2C2C54; /* darker purple */
   font-size: 32px;
   margin-bottom: 40px;
   text-align: center;
@@ -30,7 +30,7 @@
 }
 
 .season-title {
-  color: white;
+  color: #2C2C54; /* darker purple */
   font-size: 28px;
   font-weight: bold;
   margin: 0;

@@ -20,7 +20,7 @@ body {
 }
 
 .logo {
-  width: 80px;
+  width: 250px;
   margin-bottom: 20px;
 }
 
@@ -32,6 +32,7 @@ body {
   font-size: 16px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   outline: none;
+  color: #2C2C54;
 }
 
 .search-form {
@@ -49,7 +50,8 @@ body {
   padding: 12px 20px;
   font-size: 16px;
   box-shadow: 0 1px 6px rgba(32, 33, 36, 0.2);
-  outline: none;
+  outline: none; 
+  color: #2C2C54;
 }
 
 .search-button {

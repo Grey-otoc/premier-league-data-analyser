@@ -1,180 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './TopPerformers.css';
 
 const TopPerformers = () => {
   const [expandedCard, setExpandedCard] = useState(null);
+  
+ const [seasonPerformers, setSeasonPerformers] = useState([]);
 
-  // Performers organized by season
-  const seasonPerformers = [
-    {
-      season: '2024-25',
-      status: 'Current Season',
-      performers: [
-        {
-          id: 'haaland-2425',
-          rank: 1,
-          name: 'Erling Haaland',
-          team: 'Manchester City',
-          position: 'Forward',
-          image: '🇳🇴',
-          stats: {
-            goals: 27,
-            assists: 5,
-            appearances: 31,
-            minutes: 2489
-          },
-          detailedStats: {
-            goalsPerMatch: 0.87,
-            shotsOnTarget: 67,
-            conversion: '32%',
-            penaltiesScored: 4,
-            hatTricks: 2,
-            leftFoot: 8,
-            rightFoot: 16,
-            headers: 3,
-            bigChances: 42,
-            avgRating: 8.2
-          }
-        },
-        {
-          id: 'salah-2425',
-          rank: 2,
-          name: 'Mohamed Salah',
-          team: 'Liverpool',
-          position: 'Forward',
-          image: '🇪🇬',
-          stats: {
-            goals: 22,
-            assists: 13,
-            appearances: 33,
-            minutes: 2891
-          },
-          detailedStats: {
-            goalsPerMatch: 0.67,
-            shotsOnTarget: 54,
-            conversion: '28%',
-            penaltiesScored: 6,
-            freeKicks: 2,
-            leftFoot: 18,
-            rightFoot: 2,
-            headers: 2,
-            bigChances: 38,
-            avgRating: 8.5
-          }
-        },
-        {
-          id: 'palmer-2425',
-          rank: 3,
-          name: 'Cole Palmer',
-          team: 'Chelsea',
-          position: 'Midfielder',
-          image: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-          stats: {
-            goals: 20,
-            assists: 11,
-            appearances: 32,
-            minutes: 2756
-          },
-          detailedStats: {
-            goalsPerMatch: 0.63,
-            shotsOnTarget: 48,
-            conversion: '26%',
-            penaltiesScored: 8,
-            freeKicks: 3,
-            leftFoot: 15,
-            rightFoot: 2,
-            headers: 3,
-            bigChances: 35,
-            avgRating: 8.1
-          }
-        }
-      ]
-    },
-    {
-      season: '2023-24',
-      status: 'Previous Season',
-      performers: [
-        {
-          id: 'haaland-2324',
-          rank: 1,
-          name: 'Erling Haaland',
-          team: 'Manchester City',
-          position: 'Forward',
-          image: '🇳🇴',
-          stats: {
-            goals: 36,
-            assists: 6,
-            appearances: 38,
-            minutes: 3272
-          },
-          detailedStats: {
-            goalsPerMatch: 0.95,
-            shotsOnTarget: 89,
-            conversion: '35%',
-            penaltiesScored: 7,
-            hatTricks: 3,
-            leftFoot: 11,
-            rightFoot: 22,
-            headers: 3,
-            bigChances: 51,
-            avgRating: 8.8
-          }
-        },
-        {
-          id: 'palmer-2324',
-          rank: 2,
-          name: 'Cole Palmer',
-          team: 'Chelsea',
-          position: 'Midfielder',
-          image: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-          stats: {
-            goals: 22,
-            assists: 11,
-            appearances: 34,
-            minutes: 2992
-          },
-          detailedStats: {
-            goalsPerMatch: 0.65,
-            shotsOnTarget: 52,
-            conversion: '27%',
-            penaltiesScored: 9,
-            freeKicks: 2,
-            leftFoot: 17,
-            rightFoot: 3,
-            headers: 2,
-            bigChances: 38,
-            avgRating: 7.9
-          }
-        },
-        {
-          id: 'watkins-2324',
-          rank: 3,
-          name: 'Ollie Watkins',
-          team: 'Aston Villa',
-          position: 'Forward',
-          image: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-          stats: {
-            goals: 19,
-            assists: 13,
-            appearances: 37,
-            minutes: 3189
-          },
-          detailedStats: {
-            goalsPerMatch: 0.51,
-            shotsOnTarget: 45,
-            conversion: '24%',
-            penaltiesScored: 2,
-            hatTricks: 1,
-            leftFoot: 7,
-            rightFoot: 10,
-            headers: 2,
-            bigChances: 32,
-            avgRating: 7.7
-          }
-        }
-      ]
-    }
-  ];
+  // Data organized by seasons
+ useEffect(() => {
+    const fetchSeasonPerformers = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_LEAGUE_API_URL;
+        const response = await fetch(`${apiUrl}/stats/topperformers`);
+        const data = await response.json();
+        setSeasonPerformers(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSeasonPerformers();
+  }, []);
+
 
   const toggleCard = (cardId) => {
     setExpandedCard(expandedCard === cardId ? null : cardId);
@@ -223,8 +70,8 @@ const TopPerformers = () => {
                     <div className="value">{performer.stats.assists}</div>
                   </div>
                   <div className="stat-item">
-                    <div className="label">Appearances</div>
-                    <div className="value">{performer.stats.appearances}</div>
+                    <div className="label">Goals Conceded</div>
+                    <div className="value">{performer.stats.goals_conceded}</div>
                   </div>
                   <div className="stat-item">
                     <div className="label">Minutes</div>
