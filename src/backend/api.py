@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 import sqlite3
 from stats_db_config import get_stats_db_path
 from fastapi.middleware.cors import CORSMiddleware
+from auth import router as auth_router  
 
 '''
 creates endpoints that frontend can query to retrieve necessary static data
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+#add router for authentication endpoints
+app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
 
 def get_connection():
     '''generator function that acts as a dependency for FastAPI endpoints'''
