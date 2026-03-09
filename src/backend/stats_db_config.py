@@ -140,13 +140,13 @@ def populate_player_stats_table(connection: sqlite3.Connection, stat_row: tuple,
     )
     
     # if player_stats table already has an entry for player_id and season_id, then
-    # it must be skipped
+    # it is helpful to log this to know who the duplicate players are
     if cursor.fetchone():
-        return
+        print(f"Ignored stats for {stat_row.full_name} in {extracted_season}")
         
     '''get remaining values from df row to add to player_stats row'''
     player_stats_sql = """
-        INSERT INTO player_stats (
+        INSERT OR IGNORE INTO player_stats (
             player_id,
             season_id,
             goals_scored,
@@ -184,10 +184,6 @@ def populate_player_stats_table(connection: sqlite3.Connection, stat_row: tuple,
     )
     
     cursor.execute(player_stats_sql, player_stats)
-
-    # if a player's stats were added, rowcount will be 1, so add to count
-    if cursor.rowcount == 1:
-        print(f"Added {extracted_season} stats for {stat_row.full_name}.")
         
 def populate_players_table(connection: sqlite3.Connection, player_names: list):
     cursor = connection.cursor()

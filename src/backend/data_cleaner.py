@@ -2,8 +2,9 @@ import pandas as pd
 from pathlib import Path
 
 # returns a Path object that directs to current file
-CURRENT_DIR = Path(__file__).resolve()
-PLAYER_DATA_DIR = CURRENT_DIR.parent / "player_data"
+CURRENT_DIR = Path(__file__).resolve().parent
+ORIGINAL_DATA_DIR = CURRENT_DIR.parent.parent / "original_data_src"
+PLAYER_DATA_DIR = CURRENT_DIR / "player_data"
 
 def remove_unnecessary_columns():
     '''
@@ -14,11 +15,11 @@ def remove_unnecessary_columns():
     useful but isn't available for every season)
     '''
     
-    if not PLAYER_DATA_DIR.exists() or not any(PLAYER_DATA_DIR.iterdir()):
+    if not ORIGINAL_DATA_DIR.exists() or not any(ORIGINAL_DATA_DIR.iterdir()):
         raise FileNotFoundError("FATAL ERROR: Player data directory not found.")
     
     columns_to_drop = ["total_points", "bonus", "bps", "selected_by_percent", "element_type"]
-    for file_path in PLAYER_DATA_DIR.iterdir():
+    for file_path in ORIGINAL_DATA_DIR.iterdir():
         if file_path.is_file() and file_path.suffix == ".csv" and "extra" not in file_path.name:
             df = pd.read_csv(file_path, encoding="utf-8", encoding_errors="replace")
 
