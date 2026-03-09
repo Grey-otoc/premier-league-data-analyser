@@ -1,8 +1,10 @@
 from auth import router as auth_router
-from fastapi import FastAPI, HTTPException, Depends
+from collections import defaultdict
+from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from itertools import product
 import sqlite3
 from stats_db_config import get_stats_db_path
-from fastapi.middleware.cors import CORSMiddleware
 from warnings import deprecated
 
 '''
@@ -77,7 +79,7 @@ def read_root():
     
     return {"status": "Server up and running..."}
 
-@app.get("/api/stats")
+@app.get("/api/stats/summary")
 def get_seasons_and_stats():
     '''test endpoint to retrieve all seasons and stat categories available'''
     
@@ -86,40 +88,38 @@ def get_seasons_and_stats():
         "available_stats": AVAILABLE_STATS
     }
 
-@app.get("/api/stats/{season}/{category}")
-def get_stat_leaders(season: str, category: str, limit: int = 10, connection: sqlite3.Connection = Depends(get_connection)):
+@app.get("/api/stats/leaders")
+def get_stat_leaders(limit: int = 10, connection: sqlite3.Connection = Depends(get_connection)):
     '''
     endpoint to retrieve top n performers in specified category from specified season
     provides data to "data cards" discussed for homepage
     '''
     
-    if season not in SEASONS:
-        raise HTTPException(status_code = 404, detail = f"Data for season {season} is not available.")
-    
-    if category not in AVAILABLE_STATS:
-        raise HTTPException(status_code = 400, detail = f"Category {category} not found in dataset.")
-    
     cursor = connection.cursor()
     
-    # retrieve the name and specific stat columns for the top N performers 
-    # example: get 'first_name', 'second_name', and 'goals_scored' for the top 10 goal scorers
-    top_performers_query = f'''
-        SELECT players.full_name, player_stats.{category}
-        FROM player_stats
-        JOIN players ON player_stats.player_id = players.id
-        JOIN seasons ON player_stats.season_id = seasons.id
-        WHERE seasons.season_abbr = ?
-        ORDER BY player_stats.{category} DESC
-        LIMIT ?
-    '''
-    cursor.execute(top_performers_query, (season, limit))
-    top_performers = [{"player": row["full_name"], category: row[category]} for row in cursor.fetchall()]
+    top_performers_by_season = defaultdict(dict)
+    for season, stat in product(SEASONS, AVAILABLE_STATS):
+        # for each season retrieve top n performers in each stat category
+        top_performers_query = f'''
+            SELECT players.full_name, player_stats.{stat}
+            FROM player_stats
+            JOIN players ON player_stats.player_id = players.id
+            JOIN seasons ON player_stats.season_id = seasons.id
+            WHERE seasons.season_abbr = ?
+            ORDER BY player_stats.{stat} DESC
+            LIMIT ?
+        '''
+        
+        cursor.execute(top_performers_query, (season, limit))
+        top_performers = [{"player": row["full_name"], stat: row[stat]} for row in cursor.fetchall()]
+
+        top_performers_by_season[season][stat] = {
+                "display_name": stat.replace("_", " ").title(),
+                "top_performers": top_performers
+        }
     
     return {
-        "season": season,
-        "category": category,
-        "display_name": category.replace("_", " ").title(),
-        "top_performers": top_performers
+        "seasons": top_performers_by_season
     }
 
 
