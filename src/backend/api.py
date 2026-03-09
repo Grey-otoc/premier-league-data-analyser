@@ -1,8 +1,9 @@
+from auth import router as auth_router
 from fastapi import FastAPI, HTTPException, Depends
 import sqlite3
 from stats_db_config import get_stats_db_path
 from fastapi.middleware.cors import CORSMiddleware
-from auth import router as auth_router  
+from warnings import deprecated
 
 '''
 creates endpoints that frontend can query to retrieve necessary static data
@@ -54,6 +55,7 @@ def load_cached_data():
             )
         ]
         
+        # ignore columns from player_stats that are not relevant to endpoint
         irrelevant = ["id", "player_id", "season_id"]
         available_stats = cursor.execute("PRAGMA table_info(player_stats)")
         available_stats = [row["name"] for row in cursor.fetchall() if row["name"] not in irrelevant]
@@ -83,72 +85,6 @@ def get_seasons_and_stats():
         "seasons": SEASONS,
         "available_stats": AVAILABLE_STATS
     }
-
-@app.get("/api/stats/summary")
-def get_seasons_and_stats(connection: sqlite3.Connection = Depends(get_connection)):
-    '''test endpoint to retrieve  and stat categories available'''
-
-    cursor = connection.cursor()
-    
-    # retrieve the summary stats for the season to populate the "data cards" on the homepage 
-    count_query = '''
-        SELECT season_abbr,
-            COUNT(players.full_name) AS total_players,
-            SUM(player_stats.goals_scored) AS total_goals,
-            SUM(player_stats.assists) AS total_assists,
-            SUM(player_stats.minutes) AS total_minutes
-        FROM player_stats
-        JOIN players ON player_stats.player_id = players.id
-        JOIN seasons ON player_stats.season_id = seasons.id
-        group by season_abbr 
-        ORDER BY CAST(SUBSTRING(season_abbr, 1, 2) AS INT) DESC
-        LIMIT 3;
-    '''
-    # execute the query and return json response in the format:
-    cursor.execute(count_query)
-    results = [
-        {
-          "season": f"20{row['season_abbr'].split('-')[0]}-20{row['season_abbr'].split('-')[1]}",
-          "status": 'Current Season',
-          "stats": [
-                {
-                    "id": "players-" + row["season_abbr"],
-                    "title": "Total Players",
-                    "icon": '👥',
-                    "number": row["total_players"],
-                    "url": "/players",
-                    "description": "Total number of players who played in the season"
-                }, 
-                {
-                    "id": "goals-" + row["season_abbr"],
-                    "title": "Total Goals",
-                    "icon": '⚽',
-                    "number": row["total_goals"],
-                    "url": "/goals",
-                    "description": "Total number of goals scored in the season"
-                },
-                {
-                    "id": "assists-" + row["season_abbr"],
-                    "title": "Total Assists",
-                    "icon": '🎯',
-                    "number": row["total_assists"],
-                    "url": "/assists",
-                    "description": "Total number of assists in the season"
-                },
-                {
-                    "id": "minutes-" + row["season_abbr"],
-                    "title": "Minutes Played",
-                    "icon": '📊',
-                    "number": row["total_minutes"],
-                    "url": "/mintues", 
-                    "description": "Total number of minutes played in the season"
-                }
-            ]
-        }
-        for row in cursor.fetchall()
-    ]
-    
-    return results
 
 @app.get("/api/stats/{season}/{category}")
 def get_stat_leaders(season: str, category: str, limit: int = 10, connection: sqlite3.Connection = Depends(get_connection)):
@@ -187,9 +123,10 @@ def get_stat_leaders(season: str, category: str, limit: int = 10, connection: sq
     }
 
 
-
+# the following endpoints are not in use
+@deprecated("This endpoint is not in use. Use /api/stats/{season}/{category}")
 @app.get("/api/stats/topperformers")
-def get_stat_leaders(connection: sqlite3.Connection = Depends(get_connection)):
+def get_stat_leaders2(connection: sqlite3.Connection = Depends(get_connection)):
     '''
     endpoint to retrieve top n performers in specified category from specified season
     provides data to "data cards" discussed for homepage
@@ -260,3 +197,70 @@ def get_stat_leaders(connection: sqlite3.Connection = Depends(get_connection)):
         } for season, performers in season_map.items()
     ]
     return result
+
+@deprecated("This endpoint is not in use. Use /api/stats instead")
+@app.get("/api/stats/summary")
+def get_seasons_and_stats2(connection: sqlite3.Connection = Depends(get_connection)):
+    '''test endpoint to retrieve  and stat categories available'''
+
+    cursor = connection.cursor()
+    
+    # retrieve the summary stats for the season to populate the "data cards" on the homepage 
+    count_query = '''
+        SELECT season_abbr,
+            COUNT(players.full_name) AS total_players,
+            SUM(player_stats.goals_scored) AS total_goals,
+            SUM(player_stats.assists) AS total_assists,
+            SUM(player_stats.minutes) AS total_minutes
+        FROM player_stats
+        JOIN players ON player_stats.player_id = players.id
+        JOIN seasons ON player_stats.season_id = seasons.id
+        group by season_abbr 
+        ORDER BY CAST(SUBSTRING(season_abbr, 1, 2) AS INT) DESC
+        LIMIT 3;
+    '''
+    # execute the query and return json response in the format:
+    cursor.execute(count_query)
+    results = [
+        {
+          "season": f"20{row['season_abbr'].split('-')[0]}-20{row['season_abbr'].split('-')[1]}",
+          "status": 'Current Season',
+          "stats": [
+                {
+                    "id": "players-" + row["season_abbr"],
+                    "title": "Total Players",
+                    "icon": '👥',
+                    "number": row["total_players"],
+                    "url": "/players",
+                    "description": "Total number of players who played in the season"
+                }, 
+                {
+                    "id": "goals-" + row["season_abbr"],
+                    "title": "Total Goals",
+                    "icon": '⚽',
+                    "number": row["total_goals"],
+                    "url": "/goals",
+                    "description": "Total number of goals scored in the season"
+                },
+                {
+                    "id": "assists-" + row["season_abbr"],
+                    "title": "Total Assists",
+                    "icon": '🎯',
+                    "number": row["total_assists"],
+                    "url": "/assists",
+                    "description": "Total number of assists in the season"
+                },
+                {
+                    "id": "minutes-" + row["season_abbr"],
+                    "title": "Minutes Played",
+                    "icon": '📊',
+                    "number": row["total_minutes"],
+                    "url": "/mintues", 
+                    "description": "Total number of minutes played in the season"
+                }
+            ]
+        }
+        for row in cursor.fetchall()
+    ]
+    
+    return results
