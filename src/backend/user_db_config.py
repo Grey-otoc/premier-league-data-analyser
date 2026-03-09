@@ -20,12 +20,16 @@ def initialise_db():
         # "users.db" file created and/or opened
         connection = sqlite3.connect(DB_PATH)  
         cursor = connection.cursor()
-        
+        cursor.execute("DROP TABLE IF EXISTS users")
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS user_info (
+            CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY,
                 username TEXT NOT NULL UNIQUE,
-                password_hash TEXT NOT NULL
+                password TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                phone_number TEXT
             ) 
         ''')
         

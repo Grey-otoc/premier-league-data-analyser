@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import logo from "./assets/logo.jpg";
 
 export default function SearchBar() {
     const [search, setSearch] = useState('');
@@ -12,7 +13,7 @@ export default function SearchBar() {
 
     return (
         <div className="search-wrapper">
-            <img src="https://upload.wikimedia.org" alt="Firefox Logo" className="logo" />
+            <img src={logo} alt="Premier League" className="logo" />
             <form onSubmit={handleSearch} className="search-form">
                 <input
                     type="text"

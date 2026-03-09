@@ -5,3 +5,6 @@ venv/
 __pycache__
 
 /unoriginal_data_src
+
+node_modules
+build/  
