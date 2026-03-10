@@ -3,8 +3,8 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
 '''
-establishes API server, which connects to various routers that provide endpoints
-for frontend data needs
+establishes API server and connects to routers that provide endpoints
+for frontend data requests
 '''
 
 app = FastAPI()
