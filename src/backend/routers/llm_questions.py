@@ -9,7 +9,7 @@ creates endpoint that leverages Google Gemini API to provide answers for users
 free form questions
 '''
 
-client = genai.Client(api_key="AIzaSyAWbGmeOn1rjt67Qr7GafGQNS_0kEGqrpY")
+client = genai.Client(api_key="default")
 
 router = APIRouter()
 
