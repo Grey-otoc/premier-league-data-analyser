@@ -10,7 +10,7 @@ import './App.css';
 import SearchBar from './components/SearchBar';
 import Banners from './components/Banners';
 import AdBanner from './components/AdBanner';
-import Register from './components/Register';
+import Register from './components/Pages/Register';
 import LogoutButton from './components/LogoutButton';
 import {Login} from './components/Pages/Login/';
 

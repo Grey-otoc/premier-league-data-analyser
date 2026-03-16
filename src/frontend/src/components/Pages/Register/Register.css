@@ -37,7 +37,8 @@
 }
 
 .register-header h2 {
-  color: #fff;
+ /* color: #fff; */
+  color: var(--pl-purple);
   margin: 0;
   font-size: 1.8rem;
   letter-spacing: -0.5px;
