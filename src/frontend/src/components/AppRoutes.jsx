@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-
+import Register from './Pages/Register/Register';
 import { Login } from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import Home from "./Pages/Home";
@@ -25,7 +25,7 @@ function AppRoutes() {
                 }
             />
 
-
+            <Route path="/register" element={<Register />} />
 
         </Routes>
 
