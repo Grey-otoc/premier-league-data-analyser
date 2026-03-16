@@ -21,7 +21,6 @@ body {
 
 .logo {
   width: 250px;
-  margin-bottom: 20px;
 }
 
 .search-bar {
@@ -55,18 +54,19 @@ body {
 }
 
 .search-button {
-  background-color: #0060df; /* Firefox Blue */
-  color: white;
+  background-color: var(--tile-bg);
+  color: var(--text-color);
   border: none;
   border-radius: 8px;
   padding: 0 24px;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.2s;
+
 }
 
 .search-button:hover {
-  background-color: #003eaa;
+   background-color: #42414d;
 }
 
 .top-sites-grid {
