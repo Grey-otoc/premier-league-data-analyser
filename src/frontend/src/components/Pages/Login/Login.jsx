@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
 import './Login.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
@@ -132,7 +132,7 @@ const Login = () => {
 
       // 3. Redirect
       console.log('Navigating to home...');
-      navigate('/', { replace: true });
+      navigate('/profile', { replace: true });
 
     } catch (error) {
       console.error('Final catch error:', error);

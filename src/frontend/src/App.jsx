@@ -2,14 +2,17 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { AuthProvider } from './context/AuthProvider';
+import AppRoutes from "./components/AppRoutes";
+import './App.css';
+
 
 // Components
 import SearchBar from './components/SearchBar';
 import Banners from './components/Banners';
 import AdBanner from './components/AdBanner';
 import Register from './components/Register';
-import Login from './components/Login';
 import LogoutButton from './components/LogoutButton';
+import {Login} from './components/Pages/Login/';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -38,7 +41,7 @@ function AppContent() {
       <Routes>
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-        
+
         <Route path="/" element={
           <ProtectedRoute>
             <SearchBar />
@@ -55,9 +58,14 @@ function AppContent() {
 
 export default function App() {
   return (
+    /*<BrowserRouter>
+       <AuthProvider>
+         <AppContent />
+       </AuthProvider>
+     </BrowserRouter>*/
     <BrowserRouter>
       <AuthProvider>
-        <AppContent />
+        <AppRoutes />
       </AuthProvider>
     </BrowserRouter>
   );
