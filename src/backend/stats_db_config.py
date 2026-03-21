@@ -191,7 +191,7 @@ def populate_players_table(connection: sqlite3.Connection, player_names: list):
     
     for name in player_names:
         cursor.execute(
-            "INSERT OR IGNORE INTO players (full_name) VALUES (?)",
+            '''INSERT OR IGNORE INTO players (full_name) VALUES (?)''',
             (name,)
         )
 

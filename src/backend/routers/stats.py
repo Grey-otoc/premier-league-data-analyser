@@ -24,7 +24,7 @@ def get_connection():
     finally:
         connection.close()
 
-def load_cached_data():
+def load_cached_data() -> tuple:
     '''allows for better modularity by caching seasons and stat columns at startup'''
     
     connection = None
@@ -61,8 +61,8 @@ def load_cached_data():
 
 SEASONS, AVAILABLE_STATS = load_cached_data()
 
-@router.get("/data_summary")
-def get_seasons_and_stats():
+@router.get("/summary")
+def get_seasons_and_stats() -> dict:
     '''test endpoint to retrieve all seasons and stat categories available'''
     
     return {
@@ -71,7 +71,7 @@ def get_seasons_and_stats():
     }
 
 @router.get("/leaders")
-def get_stat_leaders(limit: int = 10, connection: sqlite3.Connection = Depends(get_connection)):
+def get_stat_leaders(limit: int = 10, connection: sqlite3.Connection = Depends(get_connection)) -> dict:
     '''
     endpoint to retrieve top n performers in specified category from specified season
     provides data to "data cards" discussed for homepage
@@ -96,8 +96,8 @@ def get_stat_leaders(limit: int = 10, connection: sqlite3.Connection = Depends(g
         top_performers = [{"player": row["full_name"], stat: row[stat]} for row in cursor.fetchall()]
 
         top_performers_by_season[season][stat] = {
-                "display_name": stat.replace("_", " ").title(),
-                "top_performers": top_performers
+            "display_name": stat.replace("_", " ").title(),
+            "top_performers": top_performers
         }
     
     return {

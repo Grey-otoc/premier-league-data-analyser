@@ -7,4 +7,6 @@ __pycache__
 /unoriginal_data_src
 
 node_modules
-build/  
+build/
+
+.env

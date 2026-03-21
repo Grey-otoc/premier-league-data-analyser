@@ -1,7 +1,10 @@
-from stats_db_config import get_stats_db_path
+from dotenv import load_dotenv
 from fastapi import APIRouter, Depends
 from google import genai
+import os
+from pathlib import Path
 from pydantic import BaseModel
+from stats_db_config import get_stats_db_path
 import sqlite3
 
 '''
@@ -9,7 +12,10 @@ creates endpoint that leverages Google Gemini API to provide answers for users
 free form questions
 '''
 
-client = genai.Client(api_key="default")
+ENV_FILE_PATH = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(ENV_FILE_PATH)
+GEMINI_KEY = os.getenv("GEMINI_KEY")
+client = genai.Client(api_key=GEMINI_KEY)
 
 router = APIRouter()
 
@@ -28,7 +34,7 @@ question = UserQuestion(
 def get_connection():
     '''generator function that acts as a dependency for FastAPI endpoints'''
     
-    connection = sqlite3.connect(get_stats_db_path(),check_same_thread=False)
+    connection = sqlite3.connect(get_stats_db_path(), check_same_thread=False)
     # allows us to access column names rather than their index
     connection.row_factory = sqlite3.Row
     
@@ -40,7 +46,7 @@ def get_connection():
         connection.close()
 
 @router.post("/ask")
-def ask_question(ques: UserQuestion, connection: sqlite3.Connection = Depends(get_connection)):
+def ask_question(ques: UserQuestion, connection: sqlite3.Connection = Depends(get_connection)) -> dict:
     '''
     endpoint to prompt Gemini LLM and receive a response    
     '''
@@ -64,6 +70,7 @@ def ask_question(ques: UserQuestion, connection: sqlite3.Connection = Depends(ge
         dataset alone, respond exactly: \"Question cannot be answered from this dataset.\"
         then provide a one sentence descriptive error sentence."
     """
+    
     # prompt sent to Gemini API
     prompt = f"""
         Dataset: {data}

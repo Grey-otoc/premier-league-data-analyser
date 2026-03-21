@@ -1,4 +1,4 @@
-from routers import auth, stats, llm_questions
+from routers import auth, stats, llm_questions, memberships
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -16,10 +16,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-#add routers for authentication, stats, and LLM question box endpoints
+# add routers for authentication, stats, and LLM question box endpoints
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(stats.router, prefix="/api/stats", tags=["stats"])
 app.include_router(llm_questions.router, prefix="/api/questions", tags=["questions"])
+app.include_router(memberships.router, prefix="/api/memberships", tags=["memberships"])
 
 @app.get("/")
 def read_root():
