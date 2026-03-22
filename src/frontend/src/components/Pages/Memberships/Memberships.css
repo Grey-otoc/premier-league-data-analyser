@@ -1,0 +1,294 @@
+/* ============================
+   Memberships Page
+   ============================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap');
+
+.memberships-page {
+  min-height: 100vh;
+  background: #111118;
+  padding: 0 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Hero ─────────────────── */
+.memberships-hero {
+  text-align: center;
+  padding: 4rem 1rem 3rem;
+  max-width: 640px;
+}
+
+.memberships-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9370db;
+  margin: 0 0 0.75rem;
+}
+
+.memberships-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #f0f0f0;
+  margin: 0 0 1rem;
+}
+
+.memberships-title em {
+  font-style: normal;
+  color: #9c3fff;
+}
+
+.memberships-subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  color: #8888aa;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Grid ─────────────────── */
+.memberships-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 1rem;
+}
+
+/* ── Card ─────────────────── */
+.membership-card {
+  position: relative;
+  border-radius: 16px;
+  padding: 2rem 1.75rem 1.75rem;
+  background: var(--card-gradient);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.membership-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255,255,255,0.02);
+  pointer-events: none;
+}
+
+.membership-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.membership-card--featured {
+  border-color: rgba(157, 60, 255, 0.5);
+  box-shadow: 0 0 32px rgba(100, 0, 180, 0.35);
+  transform: scale(1.03);
+}
+
+.membership-card--featured:hover {
+  transform: scale(1.03) translateY(-4px);
+}
+
+/* ── Badge ────────────────── */
+.membership-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 99px;
+  opacity: 0.9;
+}
+
+/* ── Card top ─────────────── */
+.membership-card-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  margin-bottom: 1.25rem;
+}
+
+.membership-icon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.membership-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: 0.04em;
+  color: #f0f0f0;
+  margin: 0;
+  line-height: 1;
+}
+
+.membership-tagline {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+/* ── Price ────────────────── */
+.membership-price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.membership-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.membership-period {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Divider ──────────────── */
+.membership-divider {
+  height: 1px;
+  opacity: 0.35;
+  border-radius: 1px;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Features ─────────────── */
+.membership-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.membership-features li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.membership-check {
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ── Subscribe button ─────── */
+.membership-subscribe-btn {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+}
+
+.membership-subscribe-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.membership-subscribe-btn--featured {
+  border: none;
+  color: #fff;
+  font-weight: 700;
+}
+
+.membership-subscribe-btn--featured:hover:not(:disabled) {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+  background: inherit;
+}
+
+.membership-subscribe-btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+  transform: none;
+}
+
+/* ── Spinner ──────────────── */
+.btn-spinner,
+.memberships-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.memberships-spinner {
+  width: 36px;
+  height: 36px;
+  border-width: 3px;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Loading / Error states ── */
+.memberships-loading,
+.memberships-error {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #8888aa;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.memberships-error span { font-size: 2rem; }
+
+/* ── Footnote ─────────────── */
+.memberships-footnote {
+  margin-top: 2.5rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  color: #555570;
+  text-align: center;
+}
