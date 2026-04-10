@@ -1,0 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap');
+
+.subs-page {
+  min-height: 100vh;
+  background: #0d0d14;
+  color: #e8e8f0;
+  font-family: 'DM Sans', sans-serif;
+  padding-bottom: 60px;
+}
+
+/* ─── Hero ─────────────────────────────────────────────────────────────── */
+.subs-hero {
+  text-align: center;
+  padding: 60px 24px 48px;
+  background: linear-gradient(180deg, #1a0529 0%, #0d0d14 100%);
+  border-bottom: 1px solid #2a1d38;
+}
+
+.subs-hero-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #a855f7;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.subs-hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.2rem;
+  letter-spacing: 3px;
+  margin: 0 0 14px;
+  color: #fff;
+}
+
+.subs-hero-title span {
+  color: #a855f7;
+}
+
+.subs-hero-sub {
+  color: #7c6fa0;
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ─── Loading / Error ──────────────────────────────────────────────────── */
+.subs-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 80px 24px;
+  color: #5a4e72;
+  font-size: 0.9rem;
+}
+
+.subs-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #2a1d38;
+  border-top-color: #a855f7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.subs-error {
+  max-width: 500px;
+  margin: 60px auto;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 12px;
+  padding: 20px 24px;
+  text-align: center;
+  color: #fca5a5;
+  font-size: 0.9rem;
+}
+
+.retry-btn {
+  margin-top: 14px;
+  padding: 8px 20px;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.retry-btn:hover { background: rgba(239,68,68,0.25); }
+
+/* ─── Cards grid ───────────────────────────────────────────────────────── */
+.subs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  max-width: 1050px;
+  margin: 48px auto 0;
+  padding: 0 32px;
+}
+
+@media (max-width: 600px) {
+  .subs-grid { padding: 0 16px; }
+}
+
+/* ─── Individual tier card ─────────────────────────────────────────────── */
+.tier-card {
+  background: #16121f;
+  border-radius: 20px;
+  padding: 32px 28px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s, box-shadow 0.22s;
+  display: flex;
+  flex-direction: column;
+}
+
+.tier-card.featured {
+  border: 2px solid #7c3aed;
+  box-shadow: 0 0 40px rgba(124,58,237,0.2);
+}
+
+.tier-card:not(.featured) {
+  border: 1px solid #2a1d38;
+}
+
+.tier-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+/* featured glow overlay */
+.tier-card.featured::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ─── Featured badge ───────────────────────────────────────────────────── */
+.featured-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 5px 14px;
+  border-radius: 0 20px 0 12px;
+}
+
+/* ─── Card header ──────────────────────────────────────────────────────── */
+.tier-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  margin: 0 0 4px;
+}
+
+.tier-name.gray   { color: #9ca3af; }
+.tier-name.blue   { color: #60a5fa; }
+.tier-name.purple { color: #c084fc; }
+
+.tier-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.tier-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  color: #e8e8f0;
+  line-height: 1;
+}
+
+.tier-price-label {
+  font-size: 0.8rem;
+  color: #5a4e72;
+}
+
+.tier-quota-line {
+  font-size: 0.82rem;
+  color: #7c6fa0;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tier-divider {
+  height: 1px;
+  background: #2a1d38;
+  margin-bottom: 20px;
+}
+
+/* ─── Benefits list ────────────────────────────────────────────────────── */
+.tier-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.tier-benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: #b0a8c8;
+  line-height: 1.4;
+}
+
+.tier-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tier-check.gray   { background: rgba(107,114,128,0.2); color: #9ca3af; }
+.tier-check.blue   { background: rgba(59,130,246,0.18); color: #60a5fa; }
+.tier-check.purple { background: rgba(168,85,247,0.2);  color: #c084fc; }
+
+/* ─── CTA button ───────────────────────────────────────────────────────── */
+.tier-cta {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  border: none;
+  letter-spacing: 0.3px;
+}
+
+.tier-cta:hover {
+  opacity: 0.88;
+  transform: scale(1.02);
+  border-color: transparent;
+}
+
+.tier-cta.gray {
+  background: #1e1b27;
+  color: #9ca3af;
+  border: 1px solid #2a1d38 !important;
+}
+
+.tier-cta.blue {
+  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+  color: #fff;
+}
+
+.tier-cta.purple {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff;
+}
+
+/* ─── Footer note ──────────────────────────────────────────────────────── */
+.subs-footer-note {
+  text-align: center;
+  color: #3d3552;
+  font-size: 0.8rem;
+  margin-top: 40px;
+  padding: 0 24px;
+}

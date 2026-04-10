@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
     const isAuthenticated = !!localStorage.getItem("access_token"); 
     if (!isAuthenticated) {
         // user not logged in, redirect to login
-        return <Navigate to="/" replace />;
+        return <Navigate to="/login" replace />;
     }
 
     return children;

@@ -1,0 +1,385 @@
+/* ─── Google Font ─────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ─── Dashboard shell ─────────────────────────────────────────────────────── */
+.dashboard {
+  min-height: 100vh;
+  background: #0d0d14;
+  color: #e8e8f0;
+  font-family: 'DM Sans', sans-serif;
+  padding: 0 0 60px;
+}
+
+/* ─── Hero banner ─────────────────────────────────────────────────────────── */
+.dashboard-hero {
+  background: linear-gradient(135deg, #1a0529 0%, #2e093d 55%, #00066e 100%);
+  padding: 48px 40px 40px;
+  border-bottom: 2px solid #3d0f55;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-hero::after {
+  content: '⚽';
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 120px;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.hero-greeting {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0 0 6px;
+}
+
+.hero-greeting span {
+  color: #a855f7;
+}
+
+.hero-sub {
+  color: #9da0b8;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ─── Main content wrapper ────────────────────────────────────────────────── */
+.dashboard-body {
+  padding: 36px 40px 0;
+  max-width: 1300px;
+}
+
+/* ─── Section titles ──────────────────────────────────────────────────────── */
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: #c084fc;
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #3d0f55, transparent);
+}
+
+/* ─── Top cards row ───────────────────────────────────────────────────────── */
+.cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 800px) {
+  .cards-row { grid-template-columns: 1fr; }
+  .dashboard-hero { padding: 32px 20px 28px; }
+  .dashboard-body { padding: 24px 20px 0; }
+}
+
+/* ─── Shared card base ────────────────────────────────────────────────────── */
+.dash-card {
+  background: #16121f;
+  border: 1px solid #2a1d38;
+  border-radius: 16px;
+  padding: 28px 30px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.2s;
+}
+
+.dash-card:hover {
+  border-color: #6d28d9;
+  transform: translateY(-2px);
+}
+
+.dash-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(109,40,217,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.card-icon-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.card-icon.purple { background: rgba(168,85,247,0.18); }
+.card-icon.blue   { background: rgba(59,130,246,0.18); }
+.card-icon.gold   { background: rgba(251,191,36,0.15); }
+
+.card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #7c6fa0;
+}
+
+/* ─── Quota card ──────────────────────────────────────────────────────────── */
+.quota-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem;
+  line-height: 1;
+  color: #e8e8f0;
+  margin-bottom: 6px;
+}
+
+.quota-number span {
+  font-size: 1.8rem;
+  color: #7c6fa0;
+}
+
+.quota-desc {
+  font-size: 0.85rem;
+  color: #7c6fa0;
+  margin-bottom: 20px;
+}
+
+.quota-bar-track {
+  height: 8px;
+  background: #2a1d38;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.quota-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quota-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: #5a4e72;
+}
+
+/* loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #1e1530 25%, #2a1d38 50%, #1e1530 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+.skeleton-line { height: 14px; margin-bottom: 10px; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Subscription card ───────────────────────────────────────────────────── */
+.sub-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.sub-badge.gray   { background: rgba(107,114,128,0.2); color: #9ca3af; border: 1px solid rgba(107,114,128,0.3); }
+.sub-badge.blue   { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+.sub-badge.purple { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.35); }
+
+.sub-plan-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.6rem;
+  color: #e8e8f0;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.sub-price {
+  font-size: 0.88rem;
+  color: #7c6fa0;
+  margin-bottom: 20px;
+}
+
+.sub-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sub-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #b0a8c8;
+}
+
+.benefit-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(168,85,247,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: #a855f7;
+  flex-shrink: 0;
+}
+
+.upgrade-btn {
+  display: inline-block;
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.upgrade-btn:hover {
+  opacity: 0.88;
+  transform: scale(1.03);
+  border-color: transparent;
+}
+
+/* ─── Charts row ──────────────────────────────────────────────────────────── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 960px) {
+  .charts-row { grid-template-columns: 1fr; }
+}
+
+.chart-card {
+  background: #16121f;
+  border: 1px solid #2a1d38;
+  border-radius: 16px;
+  padding: 28px 30px 20px;
+  overflow: hidden;
+}
+
+.chart-header {
+  margin-bottom: 24px;
+}
+
+.chart-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 1.5px;
+  color: #e8e8f0;
+  margin: 0 0 4px;
+}
+
+.chart-subtitle {
+  font-size: 0.78rem;
+  color: #5a4e72;
+}
+
+/* ─── Bar chart (pure CSS/SVG) ────────────────────────────────────────────── */
+.bar-chart-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.bar-chart-svg {
+  display: block;
+  width: 100%;
+  min-width: 320px;
+}
+
+.bar-chart-svg .bar {
+  rx: 4;
+  ry: 4;
+  transition: opacity 0.2s;
+  cursor: default;
+}
+
+.bar-chart-svg .bar:hover { opacity: 0.75; }
+
+.bar-chart-svg text {
+  font-family: 'DM Sans', sans-serif;
+  fill: #5a4e72;
+}
+
+.bar-chart-svg .bar-label {
+  font-size: 10px;
+  text-anchor: middle;
+}
+
+.bar-chart-svg .val-label {
+  font-size: 9.5px;
+  text-anchor: middle;
+  fill: #9da0b8;
+}
+
+.bar-chart-svg .y-label {
+  font-size: 9px;
+  text-anchor: end;
+  fill: #3d3552;
+}
+
+/* chart loading state */
+.chart-skeleton {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 160px;
+  padding-top: 10px;
+}
+
+.chart-skeleton-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+}
+
+/* ─── Error message ───────────────────────────────────────────────────────── */
+.dash-error {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: #fca5a5;
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
