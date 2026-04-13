@@ -70,32 +70,32 @@ const Register = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     
-    console.log('Form submitted');
     setServerError('');
 
     if (!validateForm()) {
-      console.log('Validation failed');
       return;
     }
 
     setLoading(true);
 
     try {
-      // Prepare data matching backend schema
+      // 1. Create the base data object
       const registerData = {
-        username: formData.username,
-        email: formData.email,
+        username: formData.username.trim(),
+        email: formData.email.trim(),
         password: formData.password,
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        phone_number: formData.phone_number || null
+        first_name: formData.first_name.trim(),
+        last_name: formData.last_name.trim(),
       };
 
-      console.log('Sending registration request to:', `${API_URL}/api/auth/register`);
-      console.log('Data:', { ...registerData, password: '***' });
+      // 2. ONLY add phone_number if it has a value
+      // This prevents sending "" or null which causes the 422 error
+      if (formData.phone_number && formData.phone_number.trim() !== '') {
+        registerData.phone_number = formData.phone_number.trim();
+      }
 
       const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
@@ -105,23 +105,18 @@ const Register = () => {
         body: JSON.stringify(registerData)
       });
 
-      console.log('Response status:', response.status);
-
       const data = await response.json();
-      console.log('Response data:', data);
 
       if (!response.ok) {
+        // If it's still a 422, let's see the exact field in the UI
+        if (response.status === 422) {
+          console.error("Validation Error Details:", data.detail);
+          throw new Error("Registration data format is incorrect. Check console for details.");
+        }
         throw new Error(data.detail || 'Registration failed');
       }
 
-      // Backend returns: {"message": "User created successfully"}
-      // After registration, user needs to login
-      console.log('Registration successful, redirecting to login');
-      
-      // Show success message
       alert('Registration successful! Please login.');
-      
-      // Redirect to login
       navigate('/login');
 
     } catch (error) {
@@ -131,7 +126,7 @@ const Register = () => {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="register-container">
       <div className="register-card">

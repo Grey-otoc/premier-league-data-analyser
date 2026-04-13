@@ -4,6 +4,8 @@ import Register from './Pages/Register/Register';
 import { Login } from "./Pages/Login";
 import Profile from "./Pages/Profile";
 import Home from "./Pages/Home";
+import Dashboard from "./Pages/Dashboard";
+import Subscriptions from "./Pages/Subscriptions";
 
 import MainLayout from "./Layout/MainLayout";
 
@@ -14,6 +16,7 @@ function AppRoutes() {
         <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
+
             <Route
                 path="/profile"
                 element={
@@ -23,6 +26,28 @@ function AppRoutes() {
                         </MainLayout>
                     </ProtectedRoute>
                 }
+            />
+
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <MainLayout>
+                            <Dashboard />
+                        </MainLayout>
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/subscriptions"
+                element={
+                    <ProtectedRoute>
+                        <MainLayout>
+                            <Subscriptions />
+                        </MainLayout>
+                    </ProtectedRoute>
+                }a
             />
 
             <Route path="/register" element={<Register />} />

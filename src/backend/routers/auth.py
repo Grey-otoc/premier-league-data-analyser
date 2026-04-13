@@ -9,6 +9,7 @@ import hashlib
 from user_db_config import get_users_db_path
 from dotenv import load_dotenv
 from pathlib import Path
+from typing import Optional
 import os
 
 class UserRegister(BaseModel):
@@ -17,7 +18,7 @@ class UserRegister(BaseModel):
     email: str
     first_name: str
     last_name: str
-    phone_number: str = None
+    phone_number: Optional[str] = None 
 
 
 class UserLogin(BaseModel):
@@ -107,3 +108,5 @@ def protected_route(token: str = Depends(oauth2_scheme)):
         return {"message": f"Hello {username}, you are authenticated!"}
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
+    
+UserRegister.model_rebuild()
