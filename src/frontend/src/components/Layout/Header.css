@@ -58,6 +58,7 @@
 }
 
 .dropdown {
+    z-index: 1000;
     position: absolute;
     top: 45px;
     right: 0;

@@ -131,7 +131,6 @@ const handleSubmit = async (e) => {
     <div className="register-container">
       <div className="register-card">
         <div className="register-header">
-          <div className="register-icon">⚽</div>
           <h2>Create Account</h2>
           <p>Join Premier League Data Analyser</p>
         </div>
