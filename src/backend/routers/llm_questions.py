@@ -25,12 +25,6 @@ class UserQuestion(BaseModel):
     season: str
     question: str
 
-# sample question
-question = UserQuestion(
-    season="22-23",
-    question="Who was the top goal scorer in this season?"
-)
-
 def get_connection():
     '''generator function that acts as a dependency for FastAPI endpoints'''
     
