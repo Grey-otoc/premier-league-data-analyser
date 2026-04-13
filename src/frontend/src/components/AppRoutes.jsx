@@ -8,6 +8,7 @@ import Dashboard from "./Pages/Dashboard";
 import Subscriptions from "./Pages/Subscriptions";
 
 import MainLayout from "./Layout/MainLayout";
+import Dashboard1 from "./Pages/Dashboard/Dashboard1";
 
 function AppRoutes() {
 
@@ -15,7 +16,9 @@ function AppRoutes() {
 
         <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<MainLayout>
+                <Home />
+            </MainLayout>} />
 
             <Route
                 path="/profile"
@@ -39,6 +42,17 @@ function AppRoutes() {
                 }
             />
 
+               <Route
+                path="/dashboard1"
+                element={
+                    <ProtectedRoute>
+                        <MainLayout>
+                            <Dashboard1 />
+                        </MainLayout>
+                    </ProtectedRoute>
+                }
+            />
+
             <Route
                 path="/subscriptions"
                 element={
@@ -47,7 +61,7 @@ function AppRoutes() {
                             <Subscriptions />
                         </MainLayout>
                     </ProtectedRoute>
-                }a
+                } a
             />
 
             <Route path="/register" element={<Register />} />

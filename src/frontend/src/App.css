@@ -19,9 +19,7 @@ body {
   margin-bottom: 50px;
 }
 
-.logo {
-  width: 250px;
-}
+
 
 .search-bar {
   width: 100%;
@@ -66,7 +64,7 @@ body {
 }
 
 .search-button:hover {
-   background-color: #42414d;
+   background-color: #6a2c9a;
 }
 
 .top-sites-grid {
