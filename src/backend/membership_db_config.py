@@ -2,7 +2,9 @@ from pathlib import Path
 import sqlite3
 
 """
-initialises the user database and creates user_info table for all account information
+initialises the memberships database and creates membership_info table to store
+all relevant information about different membership tiers displayed
+on frontend membership page
 """
 
 CURRENT_DIR = Path(__file__).resolve()
@@ -10,16 +12,31 @@ CURRENT_DIR = Path(__file__).resolve()
 DB_PATH = CURRENT_DIR.parent / "database" / "memberships.db"
 
 TIERS = [
-    (5, "Free"),
-    (10, "Pro"),
-    (15, "Elite")
+    (
+        "Scout", 
+        15, 
+        0, 
+        "Track your favorite player's performance and get essential season stats at a glance."
+    ),
+    (
+        "Analyst", 
+        150, 
+        7, 
+        "Unlock deep-dive comparisons, historical trends, and league-wide metrics."
+    ),
+    (
+        "Manager", 
+        1000, 
+        15, 
+        "Unrestricted research. Build exhaustive reports and analyze full seasons with ease."
+    )
 ]
 
 def initialise_and_populate_db():
     connection = None
     
     try:
-        # create the 'database' folder if it doesn't exist, if it does no error raised
+        # create the "database" folder if it doesn't exist, if it does no error raised
         DB_PATH.parent.mkdir(parents=True, exist_ok=True)
         
         # "memberships.db" file created and/or opened
@@ -28,13 +45,18 @@ def initialise_and_populate_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS memberships (
                 id INTEGER PRIMARY KEY,
-                requests_per_ten INTEGER NOT NULL,
-                name TEXT NOT NULL UNIQUE
+                name TEXT NOT NULL UNIQUE,
+                requests_per_day INTEGER NOT NULL,
+                price INTEGER NOT NULL,
+                description TEXT NOT NULL
             ) 
         ''')
         
         cursor.executemany(
-            '''INSERT OR IGNORE INTO memberships (requests_per_ten, name) VALUES (?, ?)''',
+            '''
+            INSERT OR IGNORE INTO memberships (name, requests_per_day, price, description)
+            VALUES (?, ?, ?, ?)
+            ''',
             TIERS
         )
         
