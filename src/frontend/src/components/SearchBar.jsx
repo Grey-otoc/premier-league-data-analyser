@@ -21,6 +21,7 @@ export default function SearchBar() {
             return;
         }
         setLoading(true);
+
         const response = await fetch("http://localhost:8000/api/questions/ask", {
             method: "POST",
             headers: { "Content-Type": "application/JSON" },
@@ -73,7 +74,7 @@ export default function SearchBar() {
                     <select
                         value={season}
                         onChange={(e) => setSeason(e.target.value)}
-                        className="appearance-none block w-full rounded-md bg-white px-3 py-2 pr-10 text-sm font-semibold text-gray-900 shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="appearance-none h-full bg-white text-gray-900 pl-4 pr-8 border border-gray-300 rounded-lg cursor-pointer outline-none transition-all hover:ring-2 hover:ring-gray-700 hover:border-transparent"
                     >
                         {seasons.map((item) => (
                             <option key={item} value={item}>
