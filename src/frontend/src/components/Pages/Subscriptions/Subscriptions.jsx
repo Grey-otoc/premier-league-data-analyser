@@ -6,43 +6,50 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 /** Pull .data from the standardised { status, data, message } envelope */
 function unwrap(json) {
   if (json?.status === 'success') return json.data;
-  throw new Error(json?.message || 'API error');
+  if (json?.status === 'error') throw new Error(json.message || 'API error');
+  return json; // plain object e.g. { memberships: [...] }
 }
+
+function tierColor(name) {
+  return { Scout: 'green', Analyst: 'blue', Manager: 'gold' }[name] ?? 'green';
+}
+
+
 
 /* ─── TierCard ──────────────────────────────────────────────────────────── */
 function TierCard({ tier }) {
-  const { name, price, price_label, requests, benefits, color, featured } = tier;
-
+  const { name, price, requests_per_day, description } = tier;
+  const color = tierColor(name);
   return (
-    <div className={`tier-card ${featured ? 'featured' : ''}`}>
-      {featured && <span className="featured-badge">Most Popular</span>}
+    <div className={`tier-card ${color}`}>
 
       {/* Header */}
       <p className={`tier-name ${color}`}>{name}</p>
       <div className="tier-price-row">
-        <span className="tier-price">{price}</span>
-        <span className="tier-price-label">/ {price_label}</span>
+        <span className="tier-price">
+          {price === 0 ? '£0' : `£${price}`}
+        </span>
+        <span className="tier-price-label">
+          {price === 0 ? 'Free forever' : '/ month'}
+        </span>
       </div>
       <p className="tier-quota-line">
         <span>💬</span>
+<<<<<<< Updated upstream
         {requests} AI questions per session
+=======
+        <strong>{requests_per_day}</strong>&nbsp;AI questions per day
+>>>>>>> Stashed changes
       </p>
 
       <div className="tier-divider" />
 
-      {/* Benefits */}
-      <ul className="tier-benefits">
-        {benefits.map(b => (
-          <li key={b} className="tier-benefit">
-            <span className={`tier-check ${color}`}>✓</span>
-            {b}
-          </li>
-        ))}
-      </ul>
+      {/* description is a plain string from the API */}
+      <p className="tier-description">{description}</p>
 
       {/* CTA */}
       <button className={`tier-cta ${color}`}>
-        {name === 'Free' ? 'Current Plan' : `Get ${name}`}
+        {name === 'Scout' ? 'Current Plan' : `Get ${name}`}
       </button>
     </div>
   );
