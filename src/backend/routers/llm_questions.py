@@ -74,10 +74,22 @@ def ask_question(ques: UserQuestion, connection: sqlite3.Connection = Depends(ge
         Guidelines that MUST be followed: {guidelines}
     """
     
-    response = client.models.generate_content(
-        model="gemini-3.1-flash-lite-preview",
-        contents=prompt
-    )
+    models_to_try = ["gemini-3.1-flash-lite-preview", "gemini-3-flash-preview", "gemini-2.5", "gemini-2.5-flash-lite"]
+
+    for model in models_to_try:
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt
+            )
+            
+            # if successful, break the loop
+            break
+        except Exception as e:
+            if "429" in str(e): # Quota exceeded error
+                continue
+            else:
+                raise e
 
     return {
         "answer": response.text
