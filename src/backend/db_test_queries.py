@@ -1,7 +1,7 @@
-import pathlib
 import sqlite3
 from stats_db_config import get_stats_db_path
 from user_db_config import get_users_db_path
+from membership_db_config import get_membership_db_path
 
 def get_season_abbrs():
     connection = None
@@ -119,8 +119,26 @@ def print_all_users():
     finally:
         if connection:
             connection.close()
+            
+def get_subscription_info():
+    connection = None
+    
+    try:
+        connection = sqlite3.connect(get_membership_db_path())
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT name, requests_per_day, price, description FROM memberships")
+        print("Membership Tiers:", cursor.fetchall())
+        
+    except Exception as e:
+        print("FATAL ERROR: Failed to retrieve and print memberships from database: {e}.")
+        raise
+        
+    finally:
+        if connection:
+            connection.close()
 
 if __name__ == "__main__":
     #add_mock_user()
     #print_all_users()
-    get_table_row_counts()
+    get_subscription_info()

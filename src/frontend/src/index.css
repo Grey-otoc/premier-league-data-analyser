@@ -36,7 +36,7 @@
 }
 
 .signin-btn:hover {
-    background-color: #42414d;
+    background-color: #6a2c9a;
     color: var(--text-color);
 }
 
@@ -75,10 +75,15 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+
+  background-color:#6a2c9a;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+select {
+  font-weight: 500;
+  font-family: inherit;
+}

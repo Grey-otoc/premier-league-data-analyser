@@ -148,7 +148,6 @@ const Login = () => {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <div className="login-icon">⚽</div>
           <h2>Welcome Back</h2>
           <p>Sign in to your Premier League Data Analyser account</p>
         </div>

@@ -86,6 +86,8 @@ def register(user: UserRegister, connection: sqlite3.Connection = Depends(get_co
     except sqlite3.IntegrityError:
         raise HTTPException(status_code=400, detail="Username already exists")
 
+
+
 # Login user api route, returns JWT token if successful
 @router.post("/login")
 def login(form_data: UserLogin, connection: sqlite3.Connection = Depends(get_connection)):
@@ -99,14 +101,44 @@ def login(form_data: UserLogin, connection: sqlite3.Connection = Depends(get_con
     token = create_access_token({"sub": user["username"]})
     return {"access_token": token, "token_type": "bearer"}
 
-# authenticated profile route
 @router.get("/profile")
-def protected_route(token: str = Depends(oauth2_scheme)):
+def protected_route(
+    token: str = Depends(oauth2_scheme),
+    connection: sqlite3.Connection = Depends(get_connection)
+):
     try:
+        # Decode JWT
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
-        return {"message": f"Hello {username}, you are authenticated!"}
+
+        if not username:
+            raise HTTPException(status_code=401, detail="Invalid token payload")
+
+        cursor = connection.cursor()
+
+        # Fetch user from DB
+        cursor.execute("""
+            SELECT id, username, email, first_name, last_name, phone_number
+            FROM users
+            WHERE username = ?
+        """, (username,))
+
+        user = cursor.fetchone()
+
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        return {
+            "id": user[0],
+            "username": user[1],
+            "email": user[2],
+            "firstName": user[3],
+            "lastName": user[4],
+            "phone": user[5]
+        }
+
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
-    
+
+
 UserRegister.model_rebuild()
