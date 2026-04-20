@@ -35,11 +35,8 @@ function TierCard({ tier }) {
       </div>
       <p className="tier-quota-line">
         <span>💬</span>
-<<<<<<< Updated upstream
-        {requests} AI questions per session
-=======
         <strong>{requests_per_day}</strong>&nbsp;AI questions per day
->>>>>>> Stashed changes
+
       </p>
 
       <div className="tier-divider" />

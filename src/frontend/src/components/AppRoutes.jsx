@@ -7,10 +7,7 @@ import Home from "./Pages/Home";
 import Subscriptions from "./Pages/Subscriptions";
 
 import MainLayout from "./Layout/MainLayout";
-<<<<<<< Updated upstream
-=======
 import Dashboard from "./Pages/Dashboard/Dashboard";
->>>>>>> Stashed changes
 
 function AppRoutes() {
 
@@ -39,17 +36,6 @@ function AppRoutes() {
                     <ProtectedRoute>
                         <MainLayout>
                             <Dashboard />
-                        </MainLayout>
-                    </ProtectedRoute>
-                }
-            />
-
-               <Route
-                path="/dashboard1"
-                element={
-                    <ProtectedRoute>
-                        <MainLayout>
-                            <Dashboard1 />
                         </MainLayout>
                     </ProtectedRoute>
                 }
